@@ -2,7 +2,11 @@
   color: blueviolet;
 }
 
+.red {
+  color: red;
+}
+
 .container {
-  border: 1px solid salmon;
+  border: 10px solid salmon;
   margin-bottom: 10px;
 }
