@@ -1,0 +1,13 @@
+.title {
+  color: blueviolet;
+}
+
+.container {
+  border: 1px solid red;
+  padding: 10px;
+}
+
+.song {
+  font-size: 20px;
+  text-decoration: underline;
+}
