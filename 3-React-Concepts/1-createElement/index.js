@@ -1,6 +1,5 @@
 const app = document.getElementById('app')
 
-
 function Artist(props) {
   return React.createElement('div', { className: 'container' }, [
     React.createElement('h2', null, props.name),
