@@ -1,5 +1,3 @@
 .container {
-  background-color: green;
+  background-color: var(--primary-color);
 }
-/* // Agregar variables 
-global */
