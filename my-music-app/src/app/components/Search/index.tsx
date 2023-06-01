@@ -1,7 +1,10 @@
 import { useState } from "react";
 
+const GENRES = ["rock", "pop", "flamenco"];
+
 function Search() {
   const [song, setSong] = useState("holaaaa");
+  const [genre, setGenre] = useState("");
 
   return (
     <form>
@@ -15,8 +18,26 @@ function Search() {
           onChange={(event) => setSong(event.target.value)}
         />
       </div>
-      <button type="submit">Buscar</button>
-      <h2>{song}</h2>
+      <div>
+        <label htmlFor="genre">Seleccionar un género</label>
+        <select
+          id="genre"
+          value={genre}
+          onChange={(event) => {
+            setGenre(event.target.value);
+          }}
+        >
+          <option />
+          {GENRES.map((element) => {
+            return (
+              <option key={element} value={element}>
+                {element}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+      {genre ? <button type="submit">Buscar</button> : <p>Selecioná algo</p>}
     </form>
   );
 }
