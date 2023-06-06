@@ -1,13 +1,20 @@
 import { useState } from "react";
-
-const GENRES = ["rock", "pop", "flamenco"];
+import { GENRES } from "./constants";
 
 function Search() {
-  const [song, setSong] = useState("holaaaa");
+  const [song, setSong] = useState("CHAUUUU");
   const [genre, setGenre] = useState("");
+  const [busquedas, setBusquedas] = useState([]);
+
+  console.log(busquedas);
 
   return (
-    <form>
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        setBusquedas([...busquedas, { song, genre }]);
+      }}
+    >
       <div>
         <label htmlFor="song">Buscar Canción</label>
         <input
@@ -15,7 +22,10 @@ function Search() {
           id="song"
           placeholder="Sorry Justin Bieber"
           value={song}
-          onChange={(event) => setSong(event.target.value)}
+          onChange={(event) => {
+            console.log(event.target.value);
+            setSong(event.target.value);
+          }}
         />
       </div>
       <div>
