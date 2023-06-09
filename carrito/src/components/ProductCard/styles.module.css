@@ -1,0 +1,11 @@
+.container {
+  border: solid 1px white;
+  border-radius: 10px;
+  width: 200px;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
