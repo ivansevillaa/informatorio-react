@@ -30,6 +30,7 @@ function Home() {
           return (
             <Artist
               key={character.id}
+              id={character.id}
               name={character.name}
               song={character.status}
               views={character.episode.length}
