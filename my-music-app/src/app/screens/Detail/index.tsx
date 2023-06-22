@@ -1,30 +1,22 @@
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useGetData } from "../../hooks/useGetData";
+
+interface Character {
+  name: string;
+  status: string;
+  species: string;
+  type: string;
+  gender: string;
+}
 
 function Detail() {
-  const [character, setCharacter] = useState();
-  const [error, setError] = useState();
   const { id } = useParams();
+  const { data, error, loading } = useGetData<Character>(
+    `https://rickandmortyapi.com/api/character/${id}`
+  );
 
-  useEffect(() => {
-    requestCharacter();
-  }, []);
-
-  async function requestCharacter() {
-    try {
-      const res = await fetch(
-        `https://rickandmortyapi.com/api/character/${id}`
-      );
-      const data = await res.json();
-
-      if (data.error) {
-        setError(data.error);
-      } else {
-        setCharacter(data);
-      }
-    } catch (e) {
-      console.error("error", e);
-    }
+  if (loading) {
+    return <h1>Cargando...</h1>;
   }
 
   if (error) {
@@ -38,16 +30,14 @@ function Detail() {
 
   return (
     <div>
-      {character ? (
+      {data && (
         <>
-          <h1>Detalle {character.name} !!!!</h1>
-          <p>{character.status}</p>
-          <p>{character.species}</p>
-          <p>{character.type}</p>
-          <p>{character.gender}</p>
+          <h1>Detalle {data.name} !!!!</h1>
+          <p>{data.status}</p>
+          <p>{data.species}</p>
+          <p>{data.type}</p>
+          <p>{data.gender}</p>
         </>
-      ) : (
-        <h1>Cargando.....</h1>
       )}
     </div>
   );
