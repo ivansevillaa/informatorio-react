@@ -1,44 +1,51 @@
 import { useEffect, useState } from "react";
-import Artist from "../../components/Artist";
-import Search from "../../components/Search";
 import styles from "./styles.module.css";
+import Albums from "../Albums";
+
+const CLIENT_ID = "eea9139e8c0b4a658194b9c703516c47";
+const REDIRECT_URI = "http://localhost:5173";
+const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
+const RESPONSE_TYPE = "token";
 
 function Home() {
-  const [characters, setCharacters] = useState();
+  const [token, setToken] = useState("");
 
   useEffect(() => {
-    requestCharacters();
+    const hash = window.location.hash;
+    let token = window.localStorage.getItem("token");
+
+    if (!token && hash) {
+      token = hash
+        .substring(1)
+        .split("&")
+        .find((elem) => elem.startsWith("access_token"))
+        .split("=")[1];
+
+      window.location.hash = "";
+      window.localStorage.setItem("token", token);
+    }
+    setToken(token);
   }, []);
 
-  async function requestCharacters() {
-    try {
-      const res = await fetch(`https://rickandmortyapi.com/api/character`);
-      const json = await res.json();
-
-      setCharacters(json.results);
-    } catch (e) {
-      console.error(e);
-    }
-  }
+  const logout = () => {
+    setToken("");
+    window.localStorage.removeItem("token");
+  };
 
   return (
     <main>
       <h1 className={styles.container}>Music Home</h1>
-      <Search />
-      {characters ? (
-        characters.map((character) => {
-          return (
-            <Artist
-              key={character.id}
-              id={character.id}
-              name={character.name}
-              song={character.status}
-              views={character.episode.length}
-            />
-          );
-        })
+      {!token ? (
+        <a
+          href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}
+        >
+          Login to Spotify
+        </a>
       ) : (
-        <h1>Cargando...</h1>
+        <>
+          <button onClick={logout}>Logout</button>
+          <Albums token={token} />
+        </>
       )}
     </main>
   );

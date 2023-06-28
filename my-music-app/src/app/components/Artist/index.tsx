@@ -7,6 +7,7 @@ type ArtistProps = {
   song: string;
   views: number;
   id: number;
+  img: string;
   isFav?: boolean;
 };
 
@@ -24,6 +25,7 @@ function Artist(props: ArtistProps) {
 
   return (
     <div className={styles.container}>
+      <img src={props.img} alt="" />
       <h2>{props.name}</h2>
       <p className="song">{props.song}</p>
       <p>{views}</p>
