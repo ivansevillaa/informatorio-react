@@ -1,8 +1,6 @@
 ```jsx
-// Prop drilling
-// -> Component composition
-// -> Context
-import React, { useState, createContext, useContext } from 'react';
+
+import React, { useState } from 'react';
 
 function App() {
   const [count, setCount] = useState(0);
