@@ -1,38 +1,50 @@
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer } from "react";
 
-interface Action {
+interface Action<T> {
   type: "INIT_REQUEST" | "REQUEST_FAILURE" | "REQUEST_SUCCESS";
   payload?: {
     error?: any;
-    data?: any;
+    data?: T | null;
   };
 }
 
-function reducer(state, action: Action) {
-  switch (action.type) {
-    case "INIT_REQUEST":
-      return {
-        loading: true,
-        error: null,
-        data: null,
-      };
-    case "REQUEST_FAILURE":
-      return {
-        loading: false,
-        error: action.payload.error,
-        data: null,
-      };
-    case "REQUEST_SUCCESS":
-      return {
-        loading: false,
-        error: null,
-        data: action.payload.data,
-      };
-  }
+interface State<T> {
+  loading: boolean;
+  data?: T | null;
+  error: any;
 }
+
+const createGetDataReducer =
+  <T>() =>
+  (state: State<T>, action: Action<T>): State<T> => {
+    switch (action.type) {
+      case "INIT_REQUEST":
+        return {
+          ...state,
+          loading: true,
+          error: null,
+          data: null,
+        };
+      case "REQUEST_FAILURE":
+        return {
+          ...state,
+          loading: false,
+          error: action.payload ? action.payload.error : null,
+          data: null,
+        };
+      case "REQUEST_SUCCESS":
+        return {
+          ...state,
+          loading: false,
+          error: null,
+          data: action.payload ? action.payload.data : null,
+        };
+    }
+  };
 
 // Custom hook
 export function useGetData<T>(API_URL: string) {
+  const reducer = createGetDataReducer<T>();
   const [state, dispatch] = useReducer(reducer, {
     loading: true,
     data: null,
