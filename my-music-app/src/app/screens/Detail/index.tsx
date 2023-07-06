@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useGetData } from "../../hooks/useGetData";
+import { useQuery } from "react-query";
 
 interface Character {
   name: string;

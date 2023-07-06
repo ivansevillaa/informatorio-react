@@ -6,8 +6,6 @@ function Search() {
   const [genre, setGenre] = useState("");
   const [busquedas, setBusquedas] = useState([]);
 
-  console.log(busquedas);
-
   return (
     <form
       onSubmit={(event) => {
